@@ -27,27 +27,26 @@ function msg2(m) {
 }
 function verify1() {
     output1 = ''; // reset;
-    const { ss, cs, p } = getParams();
+    const { ss, cs } = getParams();
     if (typeof ss === "undefined")
         return error_missing_params();
     if (typeof cs === "undefined")
         return error_missing_params();
-    if (typeof p === "undefined")
-        return error_missing_params();
+    // if ( typeof  p === "undefined" )  return error_missing_params();
     const server_seed = ss;
     const client_seed = cs;
-    const player_name = p;
+    // const player_name = p;
     const RNG = new PFRNG(server_seed);
     const server_seed_hashed = RNG.getHash(server_seed);
     msg1('Server Seed: ' + server_seed);
     msg2('Server Seed Hashed: ' + server_seed_hashed);
     msg2('');
-    msg1('Player: ' + player_name);
+    // msg1('Player: ' + player_name);
     msg1('Client Seed: ' + client_seed);
     const rollInput = `${client_seed}`; // No nonce, only 1 turn
     const rollHash = RNG.getHMAC(rollInput, server_seed);
     const roll = RNG.hashToInt(rollHash, 2, 12);
-    msg2(`${player_name} rolls ${roll}`);
+    msg2(`Roll: ${roll}`);
     document.getElementById('output1').innerHTML = output1;
 }
 function verify2() {
