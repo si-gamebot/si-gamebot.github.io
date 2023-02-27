@@ -26,6 +26,12 @@ function msg2(m) {
     output2 += m + '<br>\n';
 }
 function verify1() {
+    function getRoll(diceID) {
+        const rollInput = `${diceID}:${client_seed}`;
+        const rollHash = RNG.getHMAC(rollInput, server_seed);
+        const roll = RNG.hashToInt(rollHash, 1, 6);
+        return roll;
+    }
     output1 = ''; // reset;
     const { ss, cs } = getParams();
     if (typeof ss === "undefined")
@@ -43,10 +49,10 @@ function verify1() {
     msg2('');
     // msg1('Player: ' + player_name);
     msg1('Client Seed: ' + client_seed);
-    const rollInput = `${client_seed}`; // No nonce, only 1 turn
-    const rollHash = RNG.getHMAC(rollInput, server_seed);
-    const roll = RNG.hashToInt(rollHash, 2, 12);
-    msg2(`Roll: ${roll}`);
+    const dice1 = getRoll(1);
+    const dice2 = getRoll(2);
+    const roll = dice1 + dice2;
+    msg2(`Roll: ${roll} (${dice1} + ${dice2})`);
     document.getElementById('output1').innerHTML = output1;
 }
 function verify2() {
