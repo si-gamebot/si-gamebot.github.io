@@ -1,5 +1,5 @@
 // @ts-ignore
-import PFRNG from "./pfrng.js"; // this will be copied by the build system // TODO set up WebPack
+import PFRNG from "../pfrng.js"; // this will be copied by the build system // TODO set up WebPack
 function getParams() {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = {};
