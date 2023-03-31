@@ -1,5 +1,5 @@
 // @ts-ignore
-import PFRNG from "./pfrng.js"; // this will be copied by the build system // TODO set up WebPack
+import PFRNG from "../pfrng.js"; // this will be copied by the build system // TODO set up WebPack
 /*
     What do we need to pass into the verifier?
     - server seed (hash will be generated on the page)
