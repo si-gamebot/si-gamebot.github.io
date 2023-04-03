@@ -27,7 +27,7 @@ function msg2(m) {
 }
 function verify1() {
     output1 = ''; // reset;
-    const { ss, cs, p, b } = getParams();
+    const { ss, cs, p, b, bc } = getParams();
     if (typeof ss === "undefined")
         return error_missing_params();
     if (typeof cs === "undefined")
@@ -36,10 +36,13 @@ function verify1() {
         return error_missing_params();
     if (typeof b === "undefined")
         return error_missing_params();
+    if (typeof bc === "undefined")
+        return error_missing_params();
     const server_seed = ss;
     const client_seed = cs;
     const player_name = p;
     const burns = b;
+    const burnCounter = bc;
     const RNG = new PFRNG(server_seed);
     const server_seed_hashed = RNG.getHash(server_seed);
     msg1('Server Seed: ' + server_seed);
@@ -47,7 +50,9 @@ function verify1() {
     msg2('');
     msg1('Player: ' + player_name);
     msg1('Client Seed: ' + client_seed);
-    for (let nonce = 1; nonce <= burns; nonce++) {
+    // Note: we use burnCounter to show the actually rolled number of rolls
+    // while burns represents the total possible rolls for this game
+    for (let nonce = 1; nonce <= burnCounter; nonce++) {
         const rollInput = `${client_seed}:${nonce}`;
         const rollHash = RNG.getHMAC(rollInput, server_seed);
         const roll = RNG.hashToInt(rollHash, 0, 10000) / 100; // 0.00 - 100.00
